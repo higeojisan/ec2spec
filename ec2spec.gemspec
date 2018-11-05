@@ -5,7 +5,7 @@ require "ec2spec/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "ec2spec"
-  spec.version       = Ec2spec::VERSION
+  spec.version       = EC2spec::VERSION
   spec.authors       = ["Koda Makoto"]
   spec.email         = ["koda@cloudpack.jp"]
 
@@ -32,6 +32,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "thor"
+  spec.add_dependency "terminal-table"
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"

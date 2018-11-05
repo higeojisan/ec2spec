@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
 require "ec2spec"
+
+EC2spec::CLI.start

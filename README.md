@@ -14,7 +14,7 @@ https://www.ec2instances.info/
 ## 使い方
 ### 全てのインスタンスタイプの情報を表示する
 ```ruby
-$ ec2spec -all
+$ ec2spec list
 ```
 
 ### インスタンスファミリーを指定してインスタンスの情報を表示する
@@ -25,22 +25,22 @@ $ ec2spec -all
 - ストレージ最適化：storage
 
 ```ruby
-$ ec2spec --family general
+$ ec2spec list --family general
 ```
 
 ### シリーズ(t, m, r, etc...)を指定してインスタンスの情報を表示する
 ```ruby
-$ ec2spec --series m
+$ ec2spec list --series m
 ```
 
 ### シリーズ、世代(t3, m4, etc...)を指定してインスタンスの情報を表示する
 ```ruby
-$ ec2spec --series t --generation 3
+$ ec2spec list --series t --generation 3
 ```
 
 ### インスタンスタイプ(t2.small, m3.medium, etc..)を指定してインスタンスの情報を表示する
 ```ruby
-$ ec2spec --type t2.small
+$ ec2spec list --type t2.small
 ```
 
 ### 情報を最新化する
