@@ -31,8 +31,6 @@ module EC2spec
         SPEC_DATA.select {|row| row[:family] == :general}
       when "compute"
         SPEC_DATA.select {|row| row[:family] == :compute}
-      else
-       "no such family: #{family}"
       end
     end
   end
