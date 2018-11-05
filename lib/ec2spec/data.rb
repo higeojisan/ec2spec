@@ -33,5 +33,14 @@ module EC2spec
         SPEC_DATA.select {|row| row[:family] == :compute}
       end
     end
+
+    def get_series(series)
+      case series
+      when "t"
+        SPEC_DATA.select {|row| row[:series] == :t}
+      when "c"
+        SPEC_DATA.select {|row| row[:series] == :c}
+      end
+    end
   end
 end
