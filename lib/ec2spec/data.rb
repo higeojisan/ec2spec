@@ -52,5 +52,9 @@ module EC2spec
     def get_series_and_generation(series, generation)
       SPEC_DATA.select {|row| row[:series] == series.to_sym && row[:generation] == generation}
     end
+
+    def get_type(type)
+      SPEC_DATA.select {|row| row[:type] == type}
+    end
   end
 end
