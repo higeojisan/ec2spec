@@ -37,7 +37,7 @@ module EC2spec
       @spec_data
     end
 
-    def get_family(family)
+    def get_family(family = nil)
       case family
       when "general"
         SPEC_DATA.select {|row| row[:family] == :general}
@@ -45,15 +45,21 @@ module EC2spec
         SPEC_DATA.select {|row| row[:family] == :compute}
       when "memory"
         SPEC_DATA.select {|row| row[:family] == :memory}
+      else
+        nil
       end
     end
 
-    def get_series(series)
+    def get_series(series = nil)
       case series
       when "t"
         SPEC_DATA.select {|row| row[:series] == :t}
       when "c"
         SPEC_DATA.select {|row| row[:series] == :c}
+      when "r"
+        SPEC_DATA.select {|row| row[:series] == :r}
+      else
+        nil
       end
     end
 
