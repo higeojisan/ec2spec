@@ -10,7 +10,7 @@ module EC2spec
     option :type, :desc => "Describe instance type spec"
     def list
       begin
-        spec_data = EC2spec::Data.new
+        spec_data = EC2spec::Data.new("spec_data.yml")
         if options.empty?
           spec_array = spec_data.get_all
         elsif options.has_key?('family') && options[:family] != "family"
