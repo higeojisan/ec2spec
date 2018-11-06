@@ -21,6 +21,12 @@ module EC2spec
       {family: :compute, series: :c, generation: 5, type: 'c5.4xlarge',  cpu: 16, memory: 32.0,  network: 'MAX 10Gbps'},
       {family: :compute, series: :c, generation: 5, type: 'c5.9xlarge',  cpu: 36, memory: 72.0,  network: '10Gbps'},
       {family: :compute, series: :c, generation: 5, type: 'c5.18xlarge', cpu: 72, memory: 144.0, network: '25Gbps'},
+      {family: :memory,  series: :r, generation: 5, type: 'r5.large',    cpu: 2,  memory: 16.0,  network: 'MAX 10Gbps'},
+      {family: :memory,  series: :r, generation: 5, type: 'r5.xlarge',   cpu: 4,  memory: 32.0,  network: 'MAX 10Gbps'},
+      {family: :memory,  series: :r, generation: 5, type: 'r5.2xlarge',  cpu: 8,  memory: 64.0,  network: 'MAX 10Gbps'},
+      {family: :memory,  series: :r, generation: 5, type: 'r5.4xlarge',  cpu: 16, memory: 128.0, network: 'MAX 10Gbps'},
+      {family: :memory,  series: :r, generation: 5, type: 'r5.12xlarge', cpu: 48, memory: 384.0, network: '10Gbps'},
+      {family: :memory,  series: :r, generation: 5, type: 'r5.24xlarge', cpu: 96, memory: 768.0, network: '25Gbps'},
     ]
 
     def initialize

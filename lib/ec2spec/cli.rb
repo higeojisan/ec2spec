@@ -5,7 +5,7 @@ module EC2spec
 
     desc "list", "Describe instances type spec"
     option :family, :enum => ['general', 'compute', 'memory', 'accelerated', 'storage'], :desc => "Describe instance family spec"
-    option :series, :enum => ['t', 'c'], :desc => "Describe instance series spec"
+    option :series, :enum => ['t', 'c', 'r'], :desc => "Describe instance series spec"
     option :generation, :type => :numeric
     option :type, :desc => "Describe instance type spec"
     def list
