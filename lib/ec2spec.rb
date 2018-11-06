@@ -1,5 +1,6 @@
 require "thor"
 require "terminal-table"
+require "yaml"
 require "ec2spec/cli"
 require "ec2spec/table"
 require "ec2spec/data"

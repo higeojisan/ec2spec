@@ -1,6 +1,6 @@
 RSpec.describe EC2spec::Data do
   before do
-    @data = EC2spec::Data.new
+    @data = EC2spec::Data.new("spec_data.yml")
     @general_data = [
       {family: :general, series: :t, generation: 2, type: 't2.nano',     cpu: 1,  memory: 0.5,   network: 'Low'},
       {family: :general, series: :t, generation: 2, type: 't2.micro',    cpu: 1,  memory: 1.0,   network: 'Low to Moderate'},
@@ -67,11 +67,12 @@ RSpec.describe EC2spec::Data do
     ]
   end
 
-  describe 'get_family' do
-    it "get_all return SPEC_DATA" do
-      expect(@data.get_all).to be EC2spec::Data::SPEC_DATA
-    end
 
+  it "get_all return SPEC_DATA" do
+    expect(@data.get_all).to be @data.spec_data
+  end
+
+  describe 'get_family' do
     it "If not provided any arugment for get_family, return nil" do
       expect(@data.get_family).to be nil
     end
