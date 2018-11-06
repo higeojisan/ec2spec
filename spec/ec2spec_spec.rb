@@ -1,9 +1,5 @@
-RSpec.describe Ec2spec do
+RSpec.describe EC2spec do
   it "has a version number" do
-    expect(Ec2spec::VERSION).not_to be nil
-  end
-
-  it "does something useful" do
-    expect(false).to eq(true)
+    expect(EC2spec::VERSION).not_to be nil
   end
 end
