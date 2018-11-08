@@ -1,4 +1,4 @@
-RSpec.describe EC2spec do
+RSpec.describe EC2spec::CLI do
   ALL_DATA = <<~"EOS"
   +---------------+------+-------------+------------------------+
   | Instance type | vCPU | memory(GiB) | networking performance |
@@ -91,31 +91,30 @@ RSpec.describe EC2spec do
   +---------------+------+-------------+------------------------+
   EOS
 
-  it "has a version number" do
-    expect(EC2spec::VERSION).not_to be nil
+  #it "has a version number" do
+  #  expect(EC2spec::VERSION).not_to be nil
+  #end
+
+  it "return all data" do
+    output = capture(:stdout) { EC2spec::CLI.start(%w(list)) }
+    expect(output).to eq ALL_DATA
   end
 
-  describe "list with no arugments and options" do
-    it "return all data" do
-      output = capture(:stdout) { EC2spec::CLI.start(%w(list)) }
-      expect(output).to eq ALL_DATA
-    end
+  it "specify --family general" do
+    output = capture(:stdout) { EC2spec::CLI.start(%w(list --family=general)) }
+    expect(output).to eq GENERAL_FAMILY
   end
 
-  describe "list with --family options" do
-    it "specify --family general" do
-      output = capture(:stdout) { EC2spec::CLI.start(%w(list --family=general)) }
-      expect(output).to eq GENERAL_FAMILY
-    end
+  it "specify --family without option arugment" do
+    expect{
+      capture(:stderr) {
+        EC2spec::CLI.start( %w(list --family) )
+      }
+    }.to raise_error( SystemExit )
+  end
 
-    it "specify --family without option arugment" do
-      output = capture(:stderr) { EC2spec::CLI.start(%w(list --family)) }
-      expect(output).to eq('[ERROR] Can not get spec data.')
-    end
-
-    it "specify --family not exist family" do
-      output = capture(:stderr) { EC2spec::CLI.start(%w(list --family=aaa)) }
-      expect(output).to eq("Expected '--family' to be one of general, compute, memory, accelerated, storage; got aaa")
-    end
+  it "specify --family not exist family" do
+    output = capture(:stderr) { EC2spec::CLI.start(%w(list --family=aaa)) }
+    expect(output).to eq("Expected '--family' to be one of general, compute, memory, accelerated, storage; got aaa\n")
   end
 end
