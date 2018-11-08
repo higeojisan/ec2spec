@@ -57,6 +57,40 @@ RSpec.describe EC2spec do
   +---------------+------+-------------+------------------------+
   EOS
 
+  GENERAL_FAMILY = <<~"EOS"
+  +---------------+------+-------------+------------------------+
+  | Instance type | vCPU | memory(GiB) | networking performance |
+  +---------------+------+-------------+------------------------+
+  | t2.nano       | 1    | 0.5         | Low                    |
+  +---------------+------+-------------+------------------------+
+  | t2.micro      | 1    | 1.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t2.small      | 1    | 2.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t2.medium     | 2    | 4.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t2.large      | 2    | 8.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t2.xlarge     | 4    | 16.0        | Moderate               |
+  +---------------+------+-------------+------------------------+
+  | t2.2xlarge    | 8    | 32.0        | Moderate               |
+  +---------------+------+-------------+------------------------+
+  | t3.nano       | 2    | 0.5         | Low                    |
+  +---------------+------+-------------+------------------------+
+  | t3.micro      | 2    | 1.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t3.small      | 2    | 2.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t3.medium     | 2    | 4.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t3.large      | 2    | 8.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t3.xlarge     | 4    | 16.0        | Moderate               |
+  +---------------+------+-------------+------------------------+
+  | t3.2xlarge    | 8    | 32.0        | Moderate               |
+  +---------------+------+-------------+------------------------+
+  EOS
+
   it "has a version number" do
     expect(EC2spec::VERSION).not_to be nil
   end
@@ -65,6 +99,23 @@ RSpec.describe EC2spec do
     it "return all data" do
       output = capture(:stdout) { EC2spec::CLI.start(%w(list)) }
       expect(output).to eq ALL_DATA
+    end
+  end
+
+  describe "list with --family options" do
+    it "specify --family general" do
+      output = capture(:stdout) { EC2spec::CLI.start(%w(list --family=general)) }
+      expect(output).to eq GENERAL_FAMILY
+    end
+
+    it "specify --family without option arugment" do
+      output = capture(:stderr) { EC2spec::CLI.start(%w(list --family)) }
+      expect(output).to eq('[ERROR] Can not get spec data.')
+    end
+
+    it "specify --family not exist family" do
+      output = capture(:stderr) { EC2spec::CLI.start(%w(list --family=aaa)) }
+      expect(output).to eq("Expected '--family' to be one of general, compute, memory, accelerated, storage; got aaa")
     end
   end
 end
