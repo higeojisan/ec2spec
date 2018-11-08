@@ -91,6 +91,40 @@ RSpec.describe EC2spec::CLI do
   +---------------+------+-------------+------------------------+
   EOS
 
+  T_SERIES = <<~"EOS"
+  +---------------+------+-------------+------------------------+
+  | Instance type | vCPU | memory(GiB) | networking performance |
+  +---------------+------+-------------+------------------------+
+  | t2.nano       | 1    | 0.5         | Low                    |
+  +---------------+------+-------------+------------------------+
+  | t2.micro      | 1    | 1.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t2.small      | 1    | 2.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t2.medium     | 2    | 4.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t2.large      | 2    | 8.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t2.xlarge     | 4    | 16.0        | Moderate               |
+  +---------------+------+-------------+------------------------+
+  | t2.2xlarge    | 8    | 32.0        | Moderate               |
+  +---------------+------+-------------+------------------------+
+  | t3.nano       | 2    | 0.5         | Low                    |
+  +---------------+------+-------------+------------------------+
+  | t3.micro      | 2    | 1.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t3.small      | 2    | 2.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t3.medium     | 2    | 4.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t3.large      | 2    | 8.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t3.xlarge     | 4    | 16.0        | Moderate               |
+  +---------------+------+-------------+------------------------+
+  | t3.2xlarge    | 8    | 32.0        | Moderate               |
+  +---------------+------+-------------+------------------------+
+  EOS
+
   #it "has a version number" do
   #  expect(EC2spec::VERSION).not_to be nil
   #end
@@ -116,5 +150,23 @@ RSpec.describe EC2spec::CLI do
   it "specify --family not exist family" do
     output = capture(:stderr) { EC2spec::CLI.start(%w(list --family=aaa)) }
     expect(output).to eq("Expected '--family' to be one of general, compute, memory, accelerated, storage; got aaa\n")
+  end
+
+  it "specify --series t" do
+    output = capture(:stdout) { EC2spec::CLI.start(%w(list --series=t)) }
+    expect(output).to eq T_SERIES
+  end
+
+  it "specify --series without option arugment" do
+    expect{
+      capture(:stderr) {
+        EC2spec::CLI.start( %w(list --series) )
+      }
+    }.to raise_error( SystemExit )
+  end
+
+  it "specify --series not exist series" do
+    output = capture(:stderr) { EC2spec::CLI.start(%w(list --series=aaa)) }
+    expect(output).to eq("Expected '--series' to be one of t, c, r; got aaa\n")
   end
 end
