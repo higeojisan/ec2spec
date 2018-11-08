@@ -125,6 +125,34 @@ RSpec.describe EC2spec::CLI do
   +---------------+------+-------------+------------------------+
   EOS
 
+  T3 = <<~"EOS"
+  +---------------+------+-------------+------------------------+
+  | Instance type | vCPU | memory(GiB) | networking performance |
+  +---------------+------+-------------+------------------------+
+  | t3.nano       | 2    | 0.5         | Low                    |
+  +---------------+------+-------------+------------------------+
+  | t3.micro      | 2    | 1.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t3.small      | 2    | 2.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t3.medium     | 2    | 4.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t3.large      | 2    | 8.0         | Low to Moderate        |
+  +---------------+------+-------------+------------------------+
+  | t3.xlarge     | 4    | 16.0        | Moderate               |
+  +---------------+------+-------------+------------------------+
+  | t3.2xlarge    | 8    | 32.0        | Moderate               |
+  +---------------+------+-------------+------------------------+
+  EOS
+
+  T3_NANO = <<~"EOS"
+  +---------------+------+-------------+------------------------+
+  | Instance type | vCPU | memory(GiB) | networking performance |
+  +---------------+------+-------------+------------------------+
+  | t3.nano       | 2    | 0.5         | Low                    |
+  +---------------+------+-------------+------------------------+
+  EOS
+
   #it "has a version number" do
   #  expect(EC2spec::VERSION).not_to be nil
   #end
@@ -168,5 +196,39 @@ RSpec.describe EC2spec::CLI do
   it "specify --series not exist series" do
     output = capture(:stderr) { EC2spec::CLI.start(%w(list --series=aaa)) }
     expect(output).to eq("Expected '--series' to be one of t, c, r; got aaa\n")
+  end
+
+  it "specify --series t --generation 3" do
+    output = capture(:stdout) { EC2spec::CLI.start(%w(list --series=t --generation=3)) }
+    expect(output).to eq T3
+  end
+
+  it "specify --series t and --generation not exist generation" do
+    expect{
+      capture(:stderr) {
+        EC2spec::CLI.start( %w(list --series=t --generation=1) )
+      }
+    }.to raise_error( SystemExit )
+  end
+
+  it "specify --type t3.nano" do
+    output = capture(:stdout) { EC2spec::CLI.start(%w(list --type=t3.nano)) }
+    expect(output).to eq T3_NANO
+  end
+
+  it "specify --type without option arugment" do
+    expect{
+      capture(:stderr) {
+        EC2spec::CLI.start( %w(list --type) )
+      }
+    }.to raise_error( SystemExit )
+  end
+
+  it "specify --type not exist instance type" do
+    expect{
+      capture(:stderr) {
+        EC2spec::CLI.start( %w(list --type=t3.na) )
+      }
+    }.to raise_error( SystemExit )
   end
 end
